@@ -1,15 +1,13 @@
 const src = 'src'
 const dist = 'dist'
-
+const config = require('./gulp/config')
 const fs = require('fs')
 const path = require('path')
 const gulp = require('gulp')
 const $ = require('gulp-load-plugins')()
 const del = require('del')
 const replaceExt = require('replace-ext')
-const requireNpm = require('./gulp/plugins/require-npm')
 const webpack = require('webpack-stream')
-const npmModules = {}
 const getEntries = () => {
   let pkg = null
   try {
@@ -38,10 +36,26 @@ gulp.task('watch:script', () =>
   gulp.src('src/**/*.js')
     .pipe($.watch('src/**/*.js', onDel))
     .pipe($.plumber())
+    .pipe($.sourcemaps.init())
     .pipe($.babel({
       presets: ['env', 'stage-2']
     }))
-    .pipe(requireNpm())
+    .pipe($.sourcemaps.write())
+    .pipe($.replace(/require\(['"]([\w\d_\-\.\/@]+)['"]\)/ig, function(match, lib) {
+      if (lib && lib[0] !== '/' && lib[0] !== '.') {
+        const { file } = this
+        const { cwd } = file
+        const slashIndex = file.relative.lastIndexOf(path.sep)
+        const relative = slashIndex > -1 ? file.relative.slice(0, slashIndex) : path.sep
+        const npmPath = path.join(cwd, config.dist, config.npm)
+        const filePath = path.join(cwd, config.dist, relative)
+        let relativePath = path.relative(filePath, npmPath)
+        if (relativePath[0] !== '.' || relativePath[0] !== path.sep) relativePath = `.${path.sep}${relativePath}`
+        return `require('${relativePath}/${lib}')`
+      }
+      return `require('${lib}')`
+    }))
+    .pipe($.if(process.env.NODE_ENV === 'production', $.uglify()))
     .pipe(gulp.dest('dist'))
 )
 
@@ -49,7 +63,9 @@ gulp.task('watch:less', _ =>
   gulp.src('src/**/*.less')
     .pipe($.watch('src/**/*.less', onDel))
     .pipe($.plumber())
+    .pipe($.sourcemaps.init())
     .pipe($.less())
+    .pipe($.sourcemaps.write())
     .pipe($.rename({ extname: '.wxss' }))
     .pipe(gulp.dest('dist'))
 )
