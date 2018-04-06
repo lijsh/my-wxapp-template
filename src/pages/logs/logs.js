@@ -1,5 +1,8 @@
 //logs.js
-const util = require('vue')
+import Vue from 'vue'
+const util = require('../../utils/util')
+
+console.log(Vue.extend)
 
 Page({
   data: {
