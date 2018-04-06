@@ -77,6 +77,12 @@ gulp.task('watch:json', _ =>
     .pipe(gulp.dest(dist))
 )
 
+gulp.task('watch:image', _ =>
+  gulp.src(['src/**/*.{jpg,jpeg,png,gif,svg}'])
+    .pipe($.watch(['src/**/*.{jpg,jpeg,png,gif,svg}'], onDel))
+    .pipe(gulp.dest(dist))
+)
+
 gulp.task('webpack', _ =>
   gulp.src([])
     .pipe(webpackStream({
@@ -85,7 +91,7 @@ gulp.task('webpack', _ =>
         filename: '[name].js',
         libraryTarget: 'commonjs2',
       },
-      mode: isProd ? 'production' : 'development'
+      mode: 'production'
     }, webpack))
     .pipe(gulp.dest(`${dist}/${npm}`))
 )

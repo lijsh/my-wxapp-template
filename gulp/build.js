@@ -50,4 +50,10 @@ gulp.task('build:json', _ =>
     .pipe(gulp.dest(dist))
 )
 
+gulp.task('build:image', _ =>
+  gulp.src(['src/**/*.{jpg,jpeg,png,gif,svg}'])
+    .pipe($.imagemin())
+    .pipe(gulp.dest(dist))
+)
+
 gulp.task('build:webpack', ['webpack'])
