@@ -10,6 +10,11 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
+  observe(app) {
+    return {
+      test: app.globalData.test
+    }
+  },
   //事件处理函数
   bindViewTap: function() {
     this.navigateTo({
