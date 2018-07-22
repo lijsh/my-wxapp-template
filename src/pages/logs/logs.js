@@ -1,14 +1,13 @@
 //logs.js
-import Vue from 'vue'
 const util = require('../../utils/util')
-
-console.log(Vue.extend)
+import Page from '../../utils/page'
 
 Page({
   data: {
     logs: []
   },
-  onLoad: function () {
+  onLoad: function (option) {
+    console.log('params from previous page is', option.params)
     this.setData({
       logs: (wx.getStorageSync('logs') || []).map(log => {
         return util.formatTime(new Date(log))

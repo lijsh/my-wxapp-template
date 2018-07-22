@@ -45,9 +45,6 @@
     "not ie <= 8"
   ],
   "dependencies": {
-    "chance": "^1.0.13",
-    "jquery": "^3.3.1",
-    "redux": "^3.7.2",
-    "vue": "^2.5.16"
+    "mitt": "^1.1.3"
   }
 }

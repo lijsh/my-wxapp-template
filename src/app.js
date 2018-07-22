@@ -1,4 +1,3 @@
-require('chance')
 //app.js
 App({
   onLaunch: function () {

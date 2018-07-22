@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+import Page from '../../utils/page'
 
 Page({
   data: {
@@ -11,8 +12,9 @@ Page({
   },
   //事件处理函数
   bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
+    this.navigateTo({
+      url: '../logs/logs',
+      params: { foo: 'bar' }
     })
   },
   onLoad: function () {
