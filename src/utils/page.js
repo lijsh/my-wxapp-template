@@ -1,10 +1,11 @@
 import mitt from 'mitt'
 import shallowEqual from 'shallowequal'
+import { watch } from '../lib/observe'
 const app = getApp()
 const emitter = mitt()
 
 const newPage = function(config) {
-  const { onLoad, observe, onUnload } = config
+  const { onLoad, observe, onUnload, mapState } = config
   config.onLoad = function (onLoadOptions) {
     const pages = getCurrentPages()
     this.__previousPage = pages[pages.length - 2]
@@ -26,6 +27,18 @@ const newPage = function(config) {
         }
       })
     }
+    if (mapState) {
+      Object.keys(mapState).forEach(key => {
+        const fn = mapState[key]
+        const val = fn(app)
+        watch(_ => {
+          this.setData({
+            [key]: fn(app)
+          })
+        })
+      })
+    }
+
     if (onLoad) onLoad.call(this, onLoadOptions)
   }
 

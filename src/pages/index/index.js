@@ -8,11 +8,11 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
-  observe(app) {
-    return {
-      test: app.globalData.test
+  mapState: {
+    info(app) {
+      return `${app.globalData.name}: ${app.globalData.info.quantity} * ${app.globalData.info.price}`
     }
   },
   //事件处理函数
@@ -23,6 +23,7 @@ Page({
     })
   },
   onLoad: function () {
+    console.log(this.data.info)
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

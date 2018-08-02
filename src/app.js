@@ -1,3 +1,5 @@
+import { watch, observe } from './lib/observe'
+
 //app.js
 App({
   onLaunch: function () {
@@ -32,9 +34,15 @@ App({
         }
       }
     })
+    observe(this.globalData)
   },
   globalData: {
     userInfo: null,
-    test: { foo: 'bar' }
+    test: { foo: 'bar' },
+    name: 'halo',
+    info: {
+      quantity: 2,
+      price: 10
+    }
   }
 })

@@ -6,6 +6,11 @@ Page({
   data: {
     logs: []
   },
+  mapState: {
+    logInfo(app) {
+      return `${app.globalData.test.foo} + ${app.globalData.name}`
+    }
+  },
   onLoad: function (option) {
     console.log('params from previous page is', option.params)
     this.setData({
