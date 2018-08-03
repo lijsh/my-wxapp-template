@@ -1,4 +1,4 @@
-import { watch, observe } from './lib/observe'
+import { observe } from './lib/observe'
 
 //app.js
 App({
