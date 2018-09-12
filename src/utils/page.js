@@ -1,4 +1,4 @@
-import { watch } from '../lib/observe'
+import { watch } from '../lib/observe/index'
 const app = getApp()
 
 const newPage = function(config) {

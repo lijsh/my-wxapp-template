@@ -45,7 +45,6 @@
     "not ie <= 8"
   ],
   "dependencies": {
-    "mitt": "^1.1.3",
-    "shallowequal": "^1.1.0"
+    "mitt": "^1.1.3"
   }
 }

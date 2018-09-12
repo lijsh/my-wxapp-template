@@ -1,4 +1,4 @@
-import { observe } from './lib/observe'
+import { observe } from './lib/observe/index'
 
 //app.js
 App({
@@ -38,7 +38,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    test: { foo: 'bar' },
+    test: { foo: 'bar', bar: [{ a: 'bc' }, { b: 'ca' }] },
     name: 'halo',
     info: {
       quantity: 2,

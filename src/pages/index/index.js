@@ -13,6 +13,9 @@ Page({
   mapState: {
     info(app) {
       return `${app.globalData.name}: ${app.globalData.info.quantity} * ${app.globalData.info.price}`
+    },
+    fooBar(app) {
+      return JSON.stringify(app.globalData.test.bar)
     }
   },
   //事件处理函数

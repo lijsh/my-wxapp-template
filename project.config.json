@@ -1,5 +1,5 @@
 {
-  "miniprogramRoot": "./dist",
+	"miniprogramRoot": "./dist",
 	"description": "项目配置文件。",
 	"setting": {
 		"urlCheck": true,
@@ -11,7 +11,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.94",
 	"appid": "wxf40353faac92cec9",
-	"projectname": "wx-custom-build",
+	"projectname": "my-custom-build",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
