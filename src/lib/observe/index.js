@@ -1,6 +1,6 @@
 import { Dep } from './dep'
 import { arrayMethods } from './array'
-import { def, hasOwn, isPlainObject } from '../../utils/index'
+import { def, hasOwn, isPlainObject, isValidArrayIndex } from '../../utils/index'
 
 const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 
@@ -93,4 +93,29 @@ export function watch(exp, page) {
   Dep.target()
   Dep.target = null
   Dep.page = null
+}
+
+export function set(target, key, val) {
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.length = Math.max(target.length, key)
+    target.splice(key, 1, val)
+    return val
+  }
+  if (key in target && !(key in Object.prototype)) {
+    target[key] = val
+    return val
+  }
+
+  const ob = target.__ob__
+  if (!ob) {
+    target[key] = val
+    return val
+  }
+  defineReactive(ob.value, key, val)
+  ob.dep.notify()
+  return val
+}
+
+export function del(target, key) {
+
 }
