@@ -1,4 +1,4 @@
-import { watch } from '../lib/observe/index'
+import { watch, set } from '../lib/observe/index'
 const app = getApp()
 
 const newPage = function(config) {
@@ -24,10 +24,13 @@ const newPage = function(config) {
     if (onLoad) onLoad.call(this, onLoadOptions)
   }
 
-  config.navigateTo = function ({ url, params }) {
+  config.$navigateTo = function ({ url, params }) {
     this.__params = params
     wx.navigateTo({ url })
   }
+
+  config.$set = set
+
   config.onUnload = function() {
     if (this.deps) {
       this.deps.forEach(dep => dep.remove(this.route))

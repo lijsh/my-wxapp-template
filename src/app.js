@@ -36,7 +36,7 @@ App({
     })
     observe(this.globalData)
   },
-  $set: set,
+  set,
   globalData: {
     userInfo: null,
     test: { foo: 'bar', bar: [{ a: 'bc' }, { b: 'ca' }] },
