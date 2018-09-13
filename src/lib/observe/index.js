@@ -117,5 +117,13 @@ export function set(target, key, val) {
 }
 
 export function del(target, key) {
-
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.splice(key, 1)
+    return
+  }
+  if (hasOwn(target, key)) return
+  const ob = target.__ob__
+  delete target[key]
+  if (!ob) return
+  ob.dep.notify()
 }

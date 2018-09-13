@@ -1,4 +1,4 @@
-import { watch, set } from '../lib/observe/index'
+import { watch, set, del } from '../lib/observe/index'
 const app = getApp()
 
 const newPage = function(config) {
@@ -30,6 +30,7 @@ const newPage = function(config) {
   }
 
   config.$set = set
+  config.$del = del
 
   config.onUnload = function() {
     if (this.deps) {
