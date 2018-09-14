@@ -14,9 +14,12 @@ const getEntries = () => {
     pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
   } catch (e) {
     console.error('package.json dependencies parse error.')
-    pkg = { dependencies: deps }
+    pkg = {}
   }
-  return Object.keys(pkg.dependencies)
+  pkg.dependencies = pkg.dependencies || {}
+  const depNames = Object.keys(pkg.dependencies)
+  getEntries.deps = depNames.length > 0
+  return depNames
     .reduce((entry, dep) => {
       entry[dep] = dep
       return entry
@@ -24,6 +27,8 @@ const getEntries = () => {
 }
 
 let deps = Object.assign({}, getEntries())
+
+console.log(deps, getEntries.deps)
 
 const onDel = (vinyl) => {
   if (vinyl.event === 'unlink') {
@@ -84,7 +89,7 @@ gulp.task('watch:image', _ =>
 )
 
 gulp.task('webpack', _ =>
-  gulp.src([])
+  getEntries.deps ? gulp.src([])
     .pipe(webpackStream({
       entry: getEntries(),
       output: {
@@ -94,6 +99,7 @@ gulp.task('webpack', _ =>
       mode: 'production'
     }, webpack))
     .pipe(gulp.dest(`${dist}/${npm}`))
+    : gulp.src([])
 )
 
 gulp.task('watch:webpack', ['webpack'], _ => {
