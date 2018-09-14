@@ -1,8 +1,10 @@
+import primisify from 'promisify-wxa'
 import { observe, set, del } from './lib/observe/index'
 
 //app.js
 App({
   onLaunch: function () {
+    primisify(this)
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

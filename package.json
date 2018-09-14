@@ -45,6 +45,6 @@
     "not ie <= 8"
   ],
   "dependencies": {
-    "mitt": "^1.1.3"
+    "promisify-wxa": "0.0.9"
   }
 }
