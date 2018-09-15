@@ -1,31 +1,41 @@
+import { remove } from './utils'
+
+let uid = 0
+
 export class Dep {
   static target = null
-  static page = null
   constructor() {
+    this.id = ++uid
     this.subs = []
   }
 
   depend() {
-    if (Dep.target && !this.subs.includes(Dep.target)) {
-      this.subs.push(Dep.target)
-      this.addPageDep()
+    if (Dep.target) {
+      Dep.target.addDep(this)
     }
   }
 
-  remove(route) {
-    this.subs = this.subs.filter(sub => sub.route !== route)
+  addSub(sub) {
+    this.subs.push(sub)
   }
 
-  addPageDep() {
-    if (Dep.page) {
-      Dep.page.deps = Dep.page.deps || []
-      if (!Dep.page.deps.includes(this)) {
-        Dep.page.deps.push(this)
-      }
-    }
+  removeSub(sub) {
+    remove(this.subs, sub)
   }
 
   notify() {
-    this.subs.forEach(sub => sub())
+    const subs = this.subs.slice()
+    subs.forEach(sub => sub.update())
   }
+}
+
+const targetStack = []
+
+export function pushTarget(_target) {
+  if (Dep.target) targetStack.push(Dep.target)
+  Dep.target = _target
+}
+
+export function popTarget() {
+  Dep.target = targetStack.pop()
 }

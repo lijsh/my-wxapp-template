@@ -1,4 +1,5 @@
-import { watch, set, del } from '../lib/observe/index'
+import { set, del } from '../lib/observe/index'
+import { Watcher } from '../lib/observe/watcher'
 const app = getApp()
 
 const newPage = function(config) {
@@ -13,7 +14,7 @@ const newPage = function(config) {
     if (mapState) {
       Object.keys(mapState).forEach(key => {
         const fn = mapState[key]
-        watch(_ => {
+        new Watcher(_ => {
           this.setData({
             [key]: fn(app)
           })
@@ -33,8 +34,10 @@ const newPage = function(config) {
   config.$del = del
 
   config.onUnload = function() {
-    if (this.deps) {
-      this.deps.forEach(dep => dep.remove(this.route))
+    if (Array.isArray(this.$watchers)) {
+      this.$watchers.forEach(watcher => {
+        watcher.teardown()
+      })
     }
     if (onUnload) onUnload.call(this)
   }

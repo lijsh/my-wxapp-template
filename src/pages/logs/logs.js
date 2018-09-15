@@ -9,6 +9,9 @@ Page({
   mapState: {
     logInfo(app) {
       return `${app.globalData.test.foo} + ${app.globalData.name}`
+    },
+    fooBar(app) {
+      return JSON.stringify(app.globalData.test.bar)
     }
   },
   onLoad: function (option) {

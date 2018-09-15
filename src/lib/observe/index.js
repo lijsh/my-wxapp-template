@@ -1,6 +1,6 @@
 import { Dep } from './dep'
 import { arrayMethods } from './array'
-import { def, hasOwn, isPlainObject, isValidArrayIndex } from '../../utils/index'
+import { def, hasOwn, isPlainObject, isValidArrayIndex } from './utils'
 
 const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 
@@ -9,7 +9,7 @@ function copyAugment(target, src, keys) {
     def(target, key, src[key])
   })
 }
- 
+
 export class Observer {
   constructor(value) {
     this.value = value
@@ -84,15 +84,6 @@ function dependArray(value) {
       dependArray(e)
     }
   }
-}
-
-export function watch(exp, page) {
-  exp.route = page.route
-  Dep.target = exp
-  Dep.page = page
-  Dep.target()
-  Dep.target = null
-  Dep.page = null
 }
 
 export function set(target, key, val) {
