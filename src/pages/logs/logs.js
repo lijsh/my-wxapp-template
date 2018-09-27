@@ -1,8 +1,8 @@
 //logs.js
 const util = require('../../utils/util')
-import Page from '../../utils/page'
+import wxa from 'wxa-utils'
 
-Page({
+wxa.page({
   data: {
     logs: []
   },

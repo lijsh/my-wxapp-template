@@ -45,6 +45,6 @@
     "not ie <= 8"
   ],
   "dependencies": {
-    "promisify-wxa": "0.0.9"
+    "wxa-utils": "^2.0.0-alpha.1"
   }
 }

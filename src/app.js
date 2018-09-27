@@ -1,10 +1,8 @@
-import primisify from 'promisify-wxa'
-import { observe, set, del } from './lib/observe/index'
+import wxa from 'wxa-utils'
 
 //app.js
-App({
+wxa.app({
   onLaunch: function () {
-    primisify(this)
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -36,10 +34,7 @@ App({
         }
       }
     })
-    observe(this.globalData)
   },
-  set,
-  del,
   globalData: {
     userInfo: null,
     test: { foo: 'bar', bar: [{ a: 'bc' }, { b: 'ca' }] },

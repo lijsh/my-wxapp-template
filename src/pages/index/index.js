@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-import Page from '../../utils/page'
+import wxa from 'wxa-utils'
 
-Page({
+wxa.page({
   data: {
     motto: 'Hello World',
     userInfo: {},
