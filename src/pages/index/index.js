@@ -20,7 +20,7 @@ Page({
   },
   //事件处理函数
   bindViewTap: function() {
-    this.$navigateTo({
+    this.$navTo({
       url: '../logs/logs',
       params: { foo: 'bar' }
     })

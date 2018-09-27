@@ -4,7 +4,7 @@ import { queueWatcher } from './schedule'
 let uid = 0
 
 export class Watcher {
-  constructor(fn, ctx) {
+  constructor(ctx, fn, options) {
     this.ctx = ctx
     ctx.$watchers = (ctx.$watchers || []).concat(this)
     this.getter = fn
@@ -12,6 +12,13 @@ export class Watcher {
     this.deps = []
     this.depIds = new Set()
     this.value = this.get()
+    if (options) {
+      this.isMapStateWatcher = !!options.isMapStateWatcher
+      this.exp = options.exp
+      this.key = options.key
+    } else {
+      throw new Error('小程序环境 watcher 必须提供 options')
+    }
   }
   get() {
     pushTarget(this)
@@ -25,7 +32,7 @@ export class Watcher {
   }
 
   run() {
-    this.value = this.get()
+    // 小程序环境因为要合并 watcher 队列中的 data 一次性执行 setData，因为不再逐一调用 watcher 的 run
   }
 
   addDep(dep) {

@@ -32,3 +32,11 @@ export function remove(arr, item) {
     }
   }
 }
+
+export const nextTick = wx.nextTick ? wx.nextTick : setTimeout
+
+export function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}

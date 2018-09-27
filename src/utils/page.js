@@ -3,29 +3,31 @@ import { Watcher } from '../lib/observe/watcher'
 const app = getApp()
 
 const newPage = function(config) {
-  const { onLoad, observe, onUnload, mapState } = config
+  const { onLoad, onUnload, mapState } = config
   config.onLoad = function (onLoadOptions) {
     const pages = getCurrentPages()
-    this.__previousPage = pages[pages.length - 2]
-    if (this.__previousPage) {
-      onLoadOptions.params = this.__previousPage.__params
-      delete this.__previousPage.__params
+    this.$previousPage = pages[pages.length - 2]
+    if (this.$previousPage) {
+      onLoadOptions.params = this.$previousPage.__params
+      delete this.$previousPage.__params
     }
     if (mapState) {
       Object.keys(mapState).forEach(key => {
         const fn = mapState[key]
-        new Watcher(_ => {
+        new Watcher(this, _ => {
+          const ret = fn(app)
           this.setData({
-            [key]: fn(app)
+            [key]: ret
           })
-        }, this)
+          return ret
+        }, { isMapStateWatcher:true, exp: fn, key })
       })
     }
 
     if (onLoad) onLoad.call(this, onLoadOptions)
   }
 
-  config.$navigateTo = function ({ url, params }) {
+  config.$navTo = function ({ url, params }) {
     this.__params = params
     wx.navigateTo({ url })
   }
@@ -39,6 +41,7 @@ const newPage = function(config) {
         watcher.teardown()
       })
     }
+    delete this.$watchers
     if (onUnload) onUnload.call(this)
   }
   return Page(config)

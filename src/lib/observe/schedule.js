@@ -1,31 +1,34 @@
-const queue = []
+import { nextTick } from './utils'
+const app = getApp()
+const watcherQueue = []
 let has = {}
-let waiting = false
-const callbacks = []
+const pageMap = {}
 
 function flushSchedulerQueue() {
-  let watcher, id
-  queue.forEach(watcher => {
-    id = watcher.id
-    has[id] = null
-    watcher.run()
+  Object.keys(pageMap).forEach(route => {
+    const map = pageMap[route]
+    const data = map.expQueue.reduce((ret, cur) => {
+      ret[cur.key] = cur.exp(app)
+      return ret
+    }, {})
+    map.page.setData(data)
   })
-  waiting = false
-  has = null
-  queue.length = 0
+  has = {}
+  watcherQueue.length = 0
 }
 
 export function queueWatcher(watcher) {
   const id = watcher.id
   if (has[id]) return
   has[id] = true
-  queue.push(watcher)
-  if (!waiting) {
-    waiting = true
+  const { ctx: page, exp, key } = watcher
+  const { route } = page
+  pageMap[route] = pageMap[route] || {
+    page,
+    expQueue: []
+  }
+  pageMap[route].expQueue.push({ exp, key })
+  if (watcherQueue.push(watcher) === 1) {
     nextTick(flushSchedulerQueue)
   }
-}
-
-export function nextTick(cb) {
-  return setTimeout(cb, 0)
 }
