@@ -1,7 +1,7 @@
-import wxa from 'wxa-utils'
+import { app } from 'omina'
 
 //app.js
-wxa.app({
+app({
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []

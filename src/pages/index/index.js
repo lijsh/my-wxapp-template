@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-import wxa from 'wxa-utils'
+import { page } from 'omina'
 
-wxa.page({
+page({
   data: {
     motto: 'Hello World',
     userInfo: {},
